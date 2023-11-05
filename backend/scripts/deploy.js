@@ -3,18 +3,20 @@ const fs = require('fs/promises')
 
 async function main() {
 
-  const SurveyContract = await hre.ethers.getContractFactory("SurveyContract");
-  const surveyContract = await SurveyContract.deploy();
+  const Polling = await hre.ethers.getContractFactory("Polling");
+  const polling = await Polling.deploy();
 
-  await surveyContract.waitForDeployment();
-  await writeDeploymentInfo(surveyContract, 'survey_contract.json')
+  await polling.deployed();
+  await writeDeploymentInfo(polling, 'polling.json')
 }
 
 async function writeDeploymentInfo(contract, filename=""){
+
+  // console.log(contract);
   const data = {
     contract: {
       address: contract.target,
-      signerAddress: contract.runner.address,
+      signerAddress: contract.signer.address,
       abi: contract.interface.format()
     },
   };

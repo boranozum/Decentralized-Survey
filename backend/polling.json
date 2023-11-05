@@ -1,0 +1,13 @@
+{
+  "contract": {
+    "signerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "abi": [
+      "event PollCreated(address indexed owner, uint256 indexed pollId, uint256 createdAt, uint256 endTime)",
+      "event Voted(address indexed voted, uint256 indexed pollId, uint256 indexed voteIndex, uint256 votedAt)",
+      "function createPoll(string[] options, string question, uint256 endTime, uint256 number_of_options)",
+      "function didVote(uint256 pollId) view returns (bool)",
+      "function getPoll(uint256 pollId) view returns (address, string[], uint256[], uint256, uint256, string)",
+      "function vote(uint256 pollId, uint256 voteIndex)"
+    ]
+  }
+}

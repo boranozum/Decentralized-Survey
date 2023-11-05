@@ -1,43 +1,34 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import CreateSurvey from './components/create-survey/CreateSurvey';
-import Votes from './components/votes/Votes';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 import { useState, useEffect } from 'react';
 import {connect, getContract} from './services/contract';
+import CreatePoll from './pages/PollCreatePage';
+import Polls from './pages/PollsPage';
 
 function App() {
 
   const [contract, setContract] = useState(null);
   const [connected, setConnected] = useState(false);
-  const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
     
     window.ethereum.request({method: "eth_accounts"})
       .then((accounts) => {
         if(accounts.length > 0){
-          handleInit();
+          handleConnect();
         }
-        else setConnected(false);
+        // else{
+        //   setConnected(true);
+        //   // getContract().then((contract) => {
+        //   //   setContract(contract);
+        //   // })
+        // }
       })
   }, []);
 
-  const handleInit = async () => {
-    setConnected(true);
-    await getContract().then(({contract, signer}) => {
-      setContract(contract);
-      if (contract){
-        signer.getAddress().then((address)=> {
-          contract.members(address).then((result) => {
-            setIsMember(result);
-          });
-        })
-      }
-    });
-  }
-
-  const connectCallback = async () => {
+  
+  const handleConnect = async () => {
     const {contract} = await connect();
     setContract(contract);
 
@@ -46,34 +37,17 @@ function App() {
     }
   }
 
-  const becomeMember = async () => {
-
-    if(!contract) {
-      alert('Please connect to metamask');
-      return;
-    }
-
-    await contract.join().then(() => {
-      alert("Joined");
-      setIsMember(true);
-    }).catch((error) => {
-      alert(error.message)
-    })
-  }
-  
-
   return (
     <Router>
       <Navbar 
-        connect={connectCallback} 
+        connect={handleConnect} 
         connected={connected} 
-        becomeMember={becomeMember} 
-        isMember={isMember}
       />
       <div className='container'>
         <Routes>
-            <Route path='create-survey' element={<CreateSurvey contract={contract}/>}/>
-            <Route path='votes' element={<Votes contract={contract}/>}/>
+            <Route path='create-poll' element={<CreatePoll contract={contract}/>}/>
+            <Route path='polls' element={<Polls contract={contract}/>}/>
+            <Route path="/" element={<Navigate replace to="/polls" />} />
         </Routes>
       </div>
     </Router>

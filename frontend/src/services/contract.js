@@ -1,17 +1,14 @@
 const ethers = require('ethers');
 
-const address = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
+const address = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
 
 const abi = [
-    "event MemberJoined(address indexed member, uint256 joinedAt)",
-    "event SurveyCreated(address indexed owner, uint256 indexed surveyId, uint256 createdAt, uint256 endTime)",
-    "event Voted(address indexed voted, uint256 indexed surveyId, uint256 indexed option, uint256 votedAt)",
-    "function createSurvey(string uri, uint256 endTime, uint256 options)",
-    "function didVote(address member, uint256 surveyId) view returns (bool)",
-    "function getVote(uint256 surveyId) view returns (string, address, uint256[], uint256)",
-    "function join()",
-    "function members(address) view returns (bool)",
-    "function vote(uint256 surveyId, uint256 option)"
+    "event PollCreated(address indexed owner, uint256 indexed pollId, uint256 createdAt, uint256 endTime)",
+    "event Voted(address indexed voted, uint256 indexed pollId, uint256 indexed voteIndex, uint256 votedAt)",
+    "function createPoll(string[] options, string question, uint256 endTime, uint256 number_of_options)",
+    "function didVote(uint256 pollId) view returns (bool)",
+    "function getPoll(uint256 pollId) view returns (address, string[], uint256[], uint256, uint256, string)",
+    "function vote(uint256 pollId, uint256 voteIndex)"
   ]
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 

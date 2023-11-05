@@ -4,7 +4,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-const NavbarTop = ({connect, connected, becomeMember, isMember}) => {
+const NavbarTop = ({connect, connected}) => {
+    
   return (
     <Navbar
         collapseOnSelect
@@ -13,17 +14,20 @@ const NavbarTop = ({connect, connected, becomeMember, isMember}) => {
         variant='dark'
     >
         <Container fluid>
-            <Navbar.Brand href='/'>Survey App</Navbar.Brand>
+            <Navbar.Brand href='/'>Poll App</Navbar.Brand>
             <Navbar.Toggle/>
             <Navbar.Collapse>
                 <Nav className='me-auto'>
-                    <Nav.Link href='/votes'>
-                        Votes
-                    </Nav.Link>
-                    <Nav.Link href='/create-survey'>
-                        Create Survey
-                    </Nav.Link>
-                    {!isMember && <Button variant='success' onClick={becomeMember}>Become Member</Button>}
+                    <Nav.Item>
+                        <Nav.Link href='/polls'>
+                            Polls
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href='/create-poll'>
+                            Create Poll
+                        </Nav.Link>
+                    </Nav.Item>
                 </Nav>
                 {!connected ?
                     <Nav>
